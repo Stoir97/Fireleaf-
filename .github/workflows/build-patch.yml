@@ -1,0 +1,68 @@
+name: Build Fireleaf Patch
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  GAME_VERSION: EMERALD
+  GAME_REVISION: 0
+  GAME_LANGUAGE: ENGLISH
+  COMPARE: 0
+
+jobs:
+  build-patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi libpng-dev python3
+
+      - name: Compile
+        run: make -j$(nproc) -O all
+
+      - name: Create BPS patch
+        shell: bash
+        run: |
+          ROM="$(find . -maxdepth 2 -type f -name '*.gba' -print -quit)"
+          test -n "$ROM"
+          python3 - "$ROM" Fireleaf-Johto-preview.bps <<'PY'
+          import binascii, struct, sys
+          source_size = 16 * 1024 * 1024
+          source_crc32 = 0x1F1C08FB
+          target = open(sys.argv[1], "rb").read()
+
+          def number(n):
+              out = bytearray()
+              while True:
+                  x = n & 0x7f
+                  n >>= 7
+                  if n == 0:
+                      out.append(x | 0x80)
+                      return out
+                  out.append(x)
+                  n -= 1
+
+          patch = bytearray(b"BPS1")
+          patch += number(source_size)
+          patch += number(len(target))
+          patch += number(0)
+          patch += number(((len(target) - 1) << 2) | 1)
+          patch += target
+          patch += struct.pack("<I", source_crc32)
+          patch += struct.pack("<I", binascii.crc32(target) & 0xffffffff)
+          patch += struct.pack("<I", binascii.crc32(patch) & 0xffffffff)
+          open(sys.argv[2], "wb").write(patch)
+          PY
+
+      - name: Upload patch
+        uses: actions/upload-artifact@v4
+        with:
+          name: Fireleaf-Johto-preview
+          path: Fireleaf-Johto-preview.bps
+          if-no-files-found: error
