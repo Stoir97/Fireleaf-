@@ -1,6 +1,8 @@
 #ifndef GUARD_CHALLENGE_MENU_H
 #define GUARD_CHALLENGE_MENU_H
 
+#define ONE_TYPE_CHALLENGE_OFF 31
+
 struct ScriptContext;
 
 void CB2_InitChallengeMenu(void);

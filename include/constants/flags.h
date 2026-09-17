@@ -44,6 +44,17 @@
 #define FLAG_TEMP_1F     (TEMP_FLAGS_START + 0x1F)
 #define TEMP_FLAGS_END   FLAG_TEMP_1F
 #define NUM_TEMP_FLAGS   (TEMP_FLAGS_END - TEMP_FLAGS_START + 1)
+
+// Shared by every build that previews the three starter choices. These aliases
+// must not be confined to H&S because the expanded FireRed scripts use the same
+// showmonpic implementation.
+#define FLAG_STARTER_PREVIEW_CHECKED_1  FLAG_TEMP_1
+#define FLAG_STARTER_PREVIEW_CHECKED_2  FLAG_TEMP_2
+#define FLAG_STARTER_PREVIEW_CHECKED_3  FLAG_TEMP_3
+#define FLAG_SHINY_STARTER_1            FLAG_TEMP_4
+#define FLAG_SHINY_STARTER_2            FLAG_TEMP_5
+#define FLAG_SHINY_STARTER_3            FLAG_TEMP_6
+
 #define FLAG_SYS_GBS_ENABLED    0x20 // GBS Flag
 #define FLAG_ITEM_PLAYER_ROOM_GB_PLAYER 0x21 //GBS Flag 2
 

@@ -172,7 +172,9 @@ MoveTutor_EventScript_HeadbuttDeclined::
 	end
 
 MoveTutor_EventScript_HeadbuttTaught::
+#if IS_HNS
 	setflag FLAG_GET_HEADBUTT
+#endif
 	msgbox MoveTutor_Text_HeadbuttTaught, MSGBOX_DEFAULT
 	release
 	end

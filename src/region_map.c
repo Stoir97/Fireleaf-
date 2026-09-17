@@ -710,7 +710,11 @@ static const u8 sMapHealLocations[][3] =
     [MAPSEC_UNDERGROUND_PATH_2] = {MAP_GROUP(MAP_PALLET_TOWN), MAP_NUM(MAP_PALLET_TOWN), HEAL_LOCATION_NONE},
     [MAPSEC_DIGLETTS_CAVE] = {MAP_GROUP(MAP_PALLET_TOWN), MAP_NUM(MAP_PALLET_TOWN), HEAL_LOCATION_NONE},
     [MAPSEC_KANTO_VICTORY_ROAD] = {MAP_GROUP(MAP_PALLET_TOWN), MAP_NUM(MAP_PALLET_TOWN), HEAL_LOCATION_NONE},
+#if IS_HNS
     [MAPSEC_ROCKET_HIDEOUT_HNS] = {MAP_GROUP(MAP_PALLET_TOWN), MAP_NUM(MAP_PALLET_TOWN), HEAL_LOCATION_NONE},
+#else
+    [MAPSEC_ROCKET_HIDEOUT] = {MAP_GROUP(MAP_PALLET_TOWN), MAP_NUM(MAP_PALLET_TOWN), HEAL_LOCATION_NONE},
+#endif
     [MAPSEC_SILPH_CO] = {MAP_GROUP(MAP_PALLET_TOWN), MAP_NUM(MAP_PALLET_TOWN), HEAL_LOCATION_NONE},
     [MAPSEC_POKEMON_MANSION] = {MAP_GROUP(MAP_PALLET_TOWN), MAP_NUM(MAP_PALLET_TOWN), HEAL_LOCATION_NONE},
     [MAPSEC_KANTO_SAFARI_ZONE] = {MAP_GROUP(MAP_PALLET_TOWN), MAP_NUM(MAP_PALLET_TOWN), HEAL_LOCATION_NONE},
@@ -2909,7 +2913,11 @@ static void TryCreateRedOutlineFlyDestIcons(void)
             GetMapSecDimensions(mapSecId, &x, &y, &width, &height);
             x = (x + MAPCURSOR_X_MIN) * 8;
             y = (y + MAPCURSOR_Y_MIN) * 8;
+#if IS_HNS
             spriteId = CreateSprite(mapSecId == MAPSEC_NEW_SINJOH ? &sFlyDestIconBlueSpriteTemplate : mapSecId == MAPSEC_MELEMELE_ISLAND ? &sFlyDestIconGreenSpriteTemplate : &sFlyDestIconSpriteTemplate, x, y, 10);
+#else
+            spriteId = CreateSprite(&sFlyDestIconSpriteTemplate, x, y, 10);
+#endif
             if (spriteId != MAX_SPRITES)
             {
                 gSprites[spriteId].oam.size = SPRITE_SIZE(16x16);

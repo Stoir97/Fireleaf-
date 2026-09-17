@@ -5,6 +5,7 @@
 #include "decoration.h"
 #include "decoration_inventory.h"
 #include "event_object_movement.h"
+#include "event_data.h"
 #include "field_player_avatar.h"
 #include "field_screen_effect.h"
 #include "field_weather.h"
@@ -43,7 +44,6 @@
 #include "data/battle_frontier/battle_frontier_exchange_corner.h"
 #if IS_HNS
 #include "constants/flags.h"
-#include "event_data.h"
 #endif
 
 #define TAG_SCROLL_ARROW   2100

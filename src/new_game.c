@@ -53,6 +53,7 @@
 #include "constants/items.h"
 #include "difficulty.h"
 #include "follower_npc.h"
+#include "challenge_menu.h"
 
 extern const u8 EventScript_ResetAllMapFlags[];
 #if IS_FRLG
@@ -137,6 +138,7 @@ void SetDefaultChallengeSettings(void)
     gSaveblock3.challengeSettings.newBattleUI = 0;
     gSaveblock3.challengeSettings.musicOnOff = 0;
     gSaveblock3.challengeSettings.runType = 0;
+    gSaveblock3.challengeSettings.tx_Challenges_OneTypeChallenge = ONE_TYPE_CHALLENGE_OFF;
 
     // Challenge menu — "RECOMMENDED" defaults
     gSaveblock3.challengeSettings.tx_Mode_Modern_Moves       = 1;

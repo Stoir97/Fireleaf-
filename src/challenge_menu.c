@@ -1117,7 +1117,6 @@ static const u8 *const sDesc_EvoLimit[] = {
     COMPOUND_STRING("{PKMN} can NOT evolve at all!"),
 };
 #define NUM_ONE_TYPE_CHOICES 20
-#define ONE_TYPE_OFF 31
 #define EVO_LINE_TYPE_SEARCH_DEPTH 4 // deepest evolution chain worth walking
 
 static const u8 sText_Desc_OneType[] = _("Allow only one {PKMN} type the\nplayer can capture and use.");
@@ -2081,7 +2080,7 @@ static void Task_ConfirmSaveYes(u8 taskId)
             TYPE_DARK, TYPE_FAIRY,
         };
         if (otSel > 18)
-            cs->tx_Challenges_OneTypeChallenge = ONE_TYPE_OFF;
+            cs->tx_Challenges_OneTypeChallenge = ONE_TYPE_CHALLENGE_OFF;
         else if (otSel == 18)
             cs->tx_Challenges_OneTypeChallenge = sValidTypes[Random() % ARRAY_COUNT(sValidTypes)];
         else if (otSel >= 9)
@@ -2281,7 +2280,7 @@ void CB2_InitChallengeMenu(void)
             {
                 u8 typeVal = cs->tx_Challenges_OneTypeChallenge;
                 u8 oneTypeSel;
-                if (typeVal >= ONE_TYPE_OFF || typeVal == TYPE_NONE || typeVal == TYPE_MYSTERY || typeVal == TYPE_STELLAR)
+                if (typeVal >= ONE_TYPE_CHALLENGE_OFF || typeVal == TYPE_NONE || typeVal == TYPE_MYSTERY || typeVal == TYPE_STELLAR)
                     oneTypeSel = 19; // OFF
                 else if (typeVal <= TYPE_STEEL)
                     oneTypeSel = typeVal - 1; // types 1-9 → sel 0-8
@@ -2343,7 +2342,7 @@ bool32 HMsOverwriteOptionActive(void)
             || cs->tx_Challenges_Mirror
             || cs->tx_Random_Moves
             || cs->tx_Challenges_PartyLimit != 0
-            || cs->tx_Challenges_OneTypeChallenge != ONE_TYPE_OFF);
+            || IsOneTypeChallengeActive());
 }
 
 u8 GetMaxPartySize(void)
@@ -2432,7 +2431,14 @@ bool8 IsPokecenterChallengeActivated(void)
 
 bool8 IsOneTypeChallengeActive(void)
 {
-    return gSaveBlock3Ptr->challengeSettings.tx_Challenges_OneTypeChallenge != ONE_TYPE_OFF;
+    u8 type = gSaveBlock3Ptr->challengeSettings.tx_Challenges_OneTypeChallenge;
+
+    // Zero-filled and older saves used TYPE_NONE here. Treat every invalid type
+    // as OFF so gifts are never rejected by a challenge the player did not enable.
+    return type < NUMBER_OF_MON_TYPES
+        && type != TYPE_NONE
+        && type != TYPE_MYSTERY
+        && type != TYPE_STELLAR;
 }
 
 // Returns TRUE if the species has the given type, or if any species it can

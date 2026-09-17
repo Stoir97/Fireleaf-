@@ -1782,8 +1782,7 @@ void UpdateTimeOfDay(void)
         gTimeOfDay = TIME_DAY;
     }
 
-    if (IS_HNS)
-    {
+#if IS_HNS
         // HnS wild encounter tables only define Day and Night variants, so TIME_MORNING
         // and TIME_EVENING both fall back to the Day table (OW_TIME_OF_DAY_FALLBACK).
         // The overworld mons must swap on the same boundary, i.e. only at TIME_NIGHT.
@@ -1797,7 +1796,7 @@ void UpdateTimeOfDay(void)
             FlagSet(FLAG_NIGHT_POKEMON);
             FlagClear(FLAG_DAY_POKEMON);
         }
-    }
+#endif
 }
 
 #undef MORNING_HOUR_MIDDLE

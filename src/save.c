@@ -933,6 +933,7 @@ u8 LoadGameSave(u8 saveType)
         gSaveBlock1Ptr->saveVersion = 0;
         gSaveBlock1Ptr->saveVersionMagic = SAVE_VERSION_MAGIC;
     }
+#if IS_HNS
     if (gSaveBlock1Ptr->saveVersion < 1)
     {
         FlagSet(FLAG_ENABLE_CONDITION);
@@ -978,6 +979,12 @@ u8 LoadGameSave(u8 saveType)
         VarSet(VAR_ROUTE28_SCIENTIST, 0);
         gSaveBlock1Ptr->saveVersion = 5;
     }
+#else
+    // H&S version migrations reference H&S-only flags and events. Fireleaf
+    // starts from a fresh save ABI and will add its own migrations as needed.
+    if (gSaveBlock1Ptr->saveVersion < SAVE_VERSION)
+        gSaveBlock1Ptr->saveVersion = SAVE_VERSION;
+#endif
 
     // Add version migration steps here:
     // if (gSaveBlock1Ptr->saveVersion < 1)

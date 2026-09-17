@@ -619,9 +619,12 @@ static const struct DoorGraphics sDoorAnimGraphicsTable[] =
 
 static void CopyDoorTilesToVram(const struct DoorGraphics *gfx, const struct DoorAnimFrame *frame)
 {
+#if IS_HNS
     if (gMapHeader.mapLayout->layoutVersion == LAYOUT_VERSION_HNS && gfx->tileset == &gTileset_AlolaIsland)
         CpuFastCopy(gfx->tiles + frame->offset, (void *)(VRAM + TILE_OFFSET_4BPP(DOOR_TILE_START_SIZE2)), 8 * TILE_SIZE_4BPP);
-    else if (gMapHeader.mapLayout->layoutVersion == LAYOUT_VERSION_HNS)
+    else
+#endif
+    if (gMapHeader.mapLayout->layoutVersion == LAYOUT_VERSION_HNS)
         CpuFastCopy(gfx->tiles + frame->offset, (void *)(VRAM + TILE_OFFSET_4BPP(DOOR_TILE_START_HNS)), 8 * TILE_SIZE_4BPP);
     else if (gfx->size == 2 && !LAYOUT_USES_FRLG_DOORS(gMapHeader.mapLayout->layoutVersion))
         CpuFastCopy(gfx->tiles + frame->offset, (void *)(VRAM + TILE_OFFSET_4BPP(DOOR_TILE_START_SIZE2)), 16 * TILE_SIZE_4BPP);
@@ -653,8 +656,10 @@ static void DrawCurrentDoorAnimFrameFrlg(const struct DoorGraphics *gfx, int x, 
 {
     u16 tiles[8];
     u16 tileStart = (gMapHeader.mapLayout->layoutVersion == LAYOUT_VERSION_HNS) ? DOOR_TILE_START_HNS : DOOR_TILE_START_SIZE1;
+#if IS_HNS
     if (gMapHeader.mapLayout->layoutVersion == LAYOUT_VERSION_HNS && gfx->tileset == &gTileset_AlolaIsland)
         tileStart = DOOR_TILE_START_SIZE2;
+#endif
 
     if (gfx->size == 1)
         BuildDoorTiles(tiles, tileStart, paletteNums);

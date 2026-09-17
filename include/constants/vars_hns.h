@@ -3,7 +3,9 @@
 
 // Vars shared with Emerald (same name, same value)
 #define VAR_ICE_STEP_COUNT                               0x4022
+#if IS_HNS
 #define VAR_STARTER_MON                                  0x4023
+#endif
 #define VAR_FRONTIER_MANIAC_FACILITY                     0x402F
 #define VAR_FRONTIER_GAMBLER_AMOUNT_BET                  0x4032
 #define VAR_FRONTIER_GAMBLER_STATE                       0x4033

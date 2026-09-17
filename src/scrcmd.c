@@ -2647,6 +2647,7 @@ bool8 ScrCmd_showmonpic(struct ScriptContext *ctx)
 
     Script_RequestEffects(SCREFF_V1 | SCREFF_HARDWARE);
 
+#if IS_HNS
     // If we have not gotten a pokemon yet, assume this is the starter preview
     if (!FlagGet(FLAG_SYS_POKEMON_GET))
     {
@@ -2729,6 +2730,7 @@ bool8 ScrCmd_showmonpic(struct ScriptContext *ctx)
                 VarSet(varId, species);
         }
     }
+#endif
 
     if (shinyStarter)
         ScriptMenu_ShowShinyPokemonPic(species, x, y);

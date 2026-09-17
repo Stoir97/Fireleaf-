@@ -1613,6 +1613,7 @@ static void HideStartMenuWindow(void)
 void HideStartMenu(void)
 {
     PlaySE(SE_SELECT);
+#if IS_HNS
     // Sets VAR_TEMP_MTSILVER_RESUME_BLIZZARD_SE to 0 if the player is in Mt. Silver,
     // which is used to restart the SE_Blizzard which is stopped after opening the menu.
     // Ideal fix would be to create a new Background Music file of the Blizzard
@@ -1622,6 +1623,7 @@ void HideStartMenu(void)
     // Check variable aliases in vars_hns.h to ensire temporary variable is not used for anything else.
     if (gMapHeader.regionMapSectionId == MAPSEC_MT_SILVER && (gMapHeader.mapLayoutId == LAYOUT_MT_SILVER_SUMMIT_DAY_HNS || gMapHeader.mapLayoutId == LAYOUT_MT_SILVER_SUMMIT_NIGHT_HNS))
         VarSet(VAR_TEMP_MTSILVER_RESUME_BLIZZARD_SE, 0);
+#endif
     HideStartMenuWindow();
 }
 

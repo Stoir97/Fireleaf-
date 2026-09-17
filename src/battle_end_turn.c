@@ -13,6 +13,8 @@
 #include "constants/items.h"
 #include "constants/moves.h"
 
+// End-of-turn handling is shared by all supported game builds.
+
 static u32 GetBattlerSideForMessage(enum BattleSide side)
 {
     enum BattlerId battler = 0;

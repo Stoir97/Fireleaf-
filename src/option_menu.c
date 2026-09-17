@@ -292,8 +292,8 @@ static const u8 *const sDesc_LargeFollower[] = {
     COMPOUND_STRING("Disable large {PKMN} followers.\nRecommended."),
 };
 static const u8 *const sDesc_Autorun[] = {
-    COMPOUND_STRING("Run without pressing B."),
-    COMPOUND_STRING("Press and hold B to run."),
+    COMPOUND_STRING("Run without pressing B after\nreceiving the RUNNING SHOES."),
+    COMPOUND_STRING("Press and hold B to run after\nreceiving the RUNNING SHOES."),
 };
 static const u8 *const sDesc_AutorunSurf[] = {
     COMPOUND_STRING("Surf faster without pressing B."),
@@ -353,8 +353,8 @@ static const u8 *const sDesc_Sound[] = {
     COMPOUND_STRING("Play the left and right audio channel\nseparately. Great with headphones."),
 };
 static const u8 *const sDesc_Music[] = {
-    COMPOUND_STRING("Enables music playback.\nChange maps to take effect."),
-    COMPOUND_STRING("Disables music playback.\nChange maps to take effect."),
+    COMPOUND_STRING("Enables music playback when\nyou close this menu."),
+    COMPOUND_STRING("Disables music playback when\nyou close this menu."),
 };
 static const u8 *const sDesc_BikeMusic[] = {
     COMPOUND_STRING("Enables BIKE music."),
@@ -554,6 +554,7 @@ static void DestroyCurrentListMenu(void);
 static void DrawTopBar(void);
 static void DrawDescription(void);
 static void DrawBgFrames(void);
+static void SanitizeSelections(void);
 static void OptionMenu_MoveCursorFunc(s32 itemIndex, bool8 onInit, struct ListMenu *list);
 static void OptionMenu_ItemPrintFunc(u8 windowId, u32 itemId, u8 y);
 
@@ -578,6 +579,29 @@ static u8 GetCurrentTabItemCount(void)
 static const struct OptionMenuItem *GetCurrentTabItems(void)
 {
     return sTabs[sMenu->currentTab].items;
+}
+
+static void SanitizeSelections(void)
+{
+    u8 tab;
+
+    for (tab = 0; tab < TAB_COUNT; tab++)
+    {
+        const struct OptionMenuItem *items = sTabs[tab].items;
+        u8 item;
+
+        for (item = 0; item < sTabs[tab].count; item++)
+        {
+            u8 *selection = GetSelectionPtr(tab, item);
+            u8 numChoices = items[item].numChoices;
+
+            if (tab == TAB_MAIN && item == ITEM_MAIN_FRAMETYPE)
+                numChoices = WINDOW_FRAMES_COUNT;
+
+            if (numChoices != 0 && *selection >= numChoices)
+                *selection = 0;
+        }
+    }
 }
 
 // =============================================================================
@@ -1062,6 +1086,8 @@ static void Task_ProcessInput(u8 taskId)
 
 static void Task_Save(u8 taskId)
 {
+    bool8 wasMusicDisabled = gSaveBlock3Ptr->challengeSettings.musicOnOff;
+
     // SaveBlock2 — original options
     gSaveBlock2Ptr->optionsTextSpeed        = *GetSelectionPtr(TAB_MAIN, ITEM_MAIN_TEXTSPEED);
     gSaveBlock2Ptr->optionsBattleSceneOff   = *GetSelectionPtr(TAB_MAIN, ITEM_MAIN_BATTLESCENE);
@@ -1096,6 +1122,16 @@ static void Task_Save(u8 taskId)
     cs->musicOnOff         = *GetSelectionPtr(TAB_SOUND, ITEM_SOUND_MUSIC);
     cs->bikeMusic          = *GetSelectionPtr(TAB_SOUND, ITEM_SOUND_BIKE_MUSIC);
     cs->surfMusic          = *GetSelectionPtr(TAB_SOUND, ITEM_SOUND_SURF_MUSIC);
+
+    // Apply MUSIC immediately. Keep the current map track registered so it can
+    // resume without forcing the player to change maps.
+    if (cs->musicOnOff != wasMusicDisabled)
+    {
+        if (cs->musicOnOff)
+            FadeOutBGM(4);
+        else
+            PlayBGM(GetCurrentMapMusic());
+    }
 
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
     gTasks[taskId].func = Task_FadeOut;
@@ -1138,12 +1174,14 @@ void CB2_InitOptionMenu(void)
         DeactivateAllTextPrinters();
         SetGpuReg(REG_OFFSET_WIN0H, WIN_RANGE(16, 224));
         SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(24, 104));
-        SetGpuReg(REG_OFFSET_WININ, WININ_WIN0_BG0 | WININ_WIN1_BG0 | WININ_WIN0_OBJ);
+        SetGpuReg(REG_OFFSET_WIN1H, 0);
+        SetGpuReg(REG_OFFSET_WIN1V, 0);
+        SetGpuReg(REG_OFFSET_WININ, WININ_WIN0_BG0 | WININ_WIN0_OBJ);
         SetGpuReg(REG_OFFSET_WINOUT, WINOUT_WIN01_BG0 | WINOUT_WIN01_BG1 | WINOUT_WIN01_OBJ | WINOUT_WIN01_CLR);
         SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_EFFECT_DARKEN | BLDCNT_TGT1_BG0);
         SetGpuReg(REG_OFFSET_BLDALPHA, 0);
         SetGpuReg(REG_OFFSET_BLDY, 4);
-        SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_WIN0_ON | DISPCNT_WIN1_ON | DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP);
+        SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_WIN0_ON | DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP);
         ShowBg(0);
         ShowBg(1);
         gMain.state++;
@@ -1156,6 +1194,8 @@ void CB2_InitOptionMenu(void)
         gMain.state++;
         break;
     case 3:
+        if (gSaveBlock2Ptr->optionsWindowFrameType >= WINDOW_FRAMES_COUNT)
+            gSaveBlock2Ptr->optionsWindowFrameType = 0;
         LoadBgTiles(1, GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->tiles, 0x120, 0x1A2);
         gMain.state++;
         break;
@@ -1204,6 +1244,10 @@ void CB2_InitOptionMenu(void)
         *GetSelectionPtr(TAB_SOUND, ITEM_SOUND_MUSIC)      = cs->musicOnOff;
         *GetSelectionPtr(TAB_SOUND, ITEM_SOUND_BIKE_MUSIC) = cs->bikeMusic;
         *GetSelectionPtr(TAB_SOUND, ITEM_SOUND_SURF_MUSIC) = cs->surfMusic;
+
+        // Old or partially initialized saves can contain values outside a
+        // menu item's range. Clamp them before any drawing code indexes a table.
+        SanitizeSelections();
 
         gMain.state++;
         break;
