@@ -104,9 +104,9 @@ ViridianCity_EventScript_TutorialOldMan::
 	end
 
 ViridianCity_EventScript_AskIfTeachyTVHelpful::
-	msgbox ViridianCity_Text_HowsTeachyTVHelping, MSGBOX_YESNO
+	msgbox ViridianCity_Text_HowsExpShareHelping, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, ViridianCity_EventScript_TeachyTVNotHelpful
-	msgbox ViridianCity_Text_MyGrandsonOnTheShow
+	msgbox ViridianCity_Text_ExpShareAdvice
 	release
 	end
 
@@ -127,7 +127,7 @@ ViridianCity_EventScript_TutorialStart::
 
 @ Unused
 ViridianCity_EventScript_WatchToLearnBasics::
-	msgbox ViridianCity_Text_WatchThatToLearnBasics
+	msgbox ViridianCity_Text_UseExpShareFromKeyItems
 	release
 	end
 
@@ -228,8 +228,8 @@ ViridianCity_EventScript_DoTutorialBattle::
 	faceplayer
 	msgbox ViridianCity_Text_ThatWasEducationalTakeThis
 	setvar VAR_MAP_SCENE_VIRIDIAN_CITY_OLD_MAN, 2
-	giveitem ITEM_TEACHY_TV
-	msgbox ViridianCity_Text_WatchThatToLearnBasics
+	giveitem ITEM_EXP_SHARE
+	msgbox ViridianCity_Text_UseExpShareFromKeyItems
 	return
 
 ViridianCity_Text_CanCarryMonsAnywhere::
@@ -297,11 +297,11 @@ ViridianCity_Text_ThatWasEducationalTakeThis::
 	.string "educational, was it not?\p"
 	.string "And here, take this, too.$"
 
-ViridianCity_Text_WatchThatToLearnBasics::
-	.string "If there's something you don't\n"
-	.string "understand, watch that.\p"
-	.string "It will teach you about the basics\n"
-	.string "of being a POKéMON TRAINER.$"
+ViridianCity_Text_UseExpShareFromKeyItems::
+	.string "That EXP. SHARE helps every POKéMON\n"
+	.string "in your party gain experience.\p"
+	.string "You can switch it on or off from\n"
+	.string "the KEY ITEMS POCKET.$"
 
 ViridianCity_Text_WeakenMonsFirstToCatch::
 	.string "Well, now, I've had my coffee, and\n"
@@ -313,23 +313,22 @@ ViridianCity_Text_WeakenMonsFirstToCatch::
 	.string "At first, focus on weakening the\n"
 	.string "POKéMON before trying to catch it.$"
 
-ViridianCity_Text_HowsTeachyTVHelping::
+ViridianCity_Text_HowsExpShareHelping::
 	.string "Well, now, I've had my coffee, and\n"
 	.string "that's what I need to get going!\p"
 	.string "But I made it too strong.\n"
 	.string "It gave me a headache…\p"
-	.string "Incidentally, is my old TEACHY TV\n"
+	.string "Incidentally, is that EXP. SHARE\n"
 	.string "helping you?$"
 
-ViridianCity_Text_MyGrandsonOnTheShow::
-	.string "Wahaha!\n"
-	.string "It's my grandson on the show!\p"
-	.string "Since he's the one doing the\n"
-	.string "teaching, you're bound to learn.$"
+ViridianCity_Text_ExpShareAdvice::
+	.string "Wahaha! Good!\p"
+	.string "It should make raising a balanced\n"
+	.string "team much easier.$"
 
 ViridianCity_Text_TooBusyForTeachyTV::
-	.string "Hm… You're too busy to not even\n"
-	.string "have the time for TEACHY TV…\p"
+	.string "Hm… You prefer training one POKéMON\n"
+	.string "at a time, then…\p"
 	.string "Time is money, and neither should\n"
 	.string "be ill spent…$"
 
@@ -356,4 +355,3 @@ ViridianCity_Text_GymSign::
 
 ViridianCity_Text_GymDoorsAreLocked::
 	.string "VIRIDIAN GYM's doors are locked…$"
-

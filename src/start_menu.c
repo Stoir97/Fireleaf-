@@ -548,10 +548,11 @@ static void RemoveExtraStartMenuWindows(void)
         RemoveWindow(sBattlePyramidFloorWindowId);
     }
 
-    if (CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE)
+    if (CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE && sStartClockWindowId != WINDOW_NONE)
     {
         ClearStdWindowAndFrameToTransparent(sStartClockWindowId, FALSE);
         RemoveWindow(sStartClockWindowId);
+        sStartClockWindowId = WINDOW_NONE;
     }
 }
 
@@ -613,7 +614,7 @@ static bool32 InitStartMenuStep(void)
         sInitStartMenuData[0]++;
         break;
     case 4:
-        if (CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE)
+        if (CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE && !FIRELEAF_PROJECT)
             ShowTimeWindow();
         sInitStartMenuData[0]++;
         break;
@@ -632,6 +633,7 @@ static bool32 InitStartMenuStep(void)
 
 static void InitStartMenu(void)
 {
+    sStartClockWindowId = WINDOW_NONE;
     sInitStartMenuData[0] = 0;
     sInitStartMenuData[1] = 0;
     while (!InitStartMenuStep())
@@ -752,7 +754,7 @@ static bool8 HandleStartMenuInput(void)
         return TRUE;
     }
 
-    if (CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE)
+    if (CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE && !FIRELEAF_PROJECT)
     {
         RemoveExtraStartMenuWindows();
         ShowTimeWindow();
@@ -789,7 +791,7 @@ static bool8 StartMenuPokemonCallback(void)
         return TRUE;
     }
 
-    if (!GetSafariZoneFlag() && CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE
+    if (!GetSafariZoneFlag() && CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE && !FIRELEAF_PROJECT
         && gSaveBlock2Ptr->playTimeSeconds == 0)
     {
         RemoveExtraStartMenuWindows();

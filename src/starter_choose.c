@@ -649,7 +649,13 @@ static void Task_HandleConfirmStarterInput(u8 taskId)
     case 0:  // YES
         // Return the starter choice and exit.
         gSpecialVar_Result = gTasks[taskId].tStarterSelection;
+        ClearStarterLabel();
         ResetAllPicSprites();
+        SetGpuReg(REG_OFFSET_WININ, 0);
+        SetGpuReg(REG_OFFSET_WINOUT, 0);
+        SetGpuReg(REG_OFFSET_WIN0H, 0);
+        SetGpuReg(REG_OFFSET_WIN0V, 0);
+        SetGpuReg(REG_OFFSET_DISPCNT, 0);
         SetMainCallback2(gMain.savedCallback);
         break;
     case 1:  // NO

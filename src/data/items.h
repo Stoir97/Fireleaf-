@@ -16096,7 +16096,7 @@ const struct ItemInfo gItemsInfo[] =
 
     [ITEM_EXP_SHARE_SMALL] =
     {
-        .name = ITEM_NAME("EXP. SHARE S"),
+        .name = ITEM_NAME("EXP. SHARE"),
         .price = 6000,
         .holdEffect = HOLD_EFFECT_EXP_SHARE,
         .description = COMPOUND_STRING(

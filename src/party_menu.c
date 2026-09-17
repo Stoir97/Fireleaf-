@@ -80,6 +80,7 @@
 #include "constants/moves.h"
 #include "constants/party_menu.h"
 #include "constants/rgb.h"
+#include "constants/region_map_sections.h"
 #include "constants/songs.h"
 
 enum {
@@ -4344,6 +4345,15 @@ static void DisplayCantUseSurfMessage(void)
 
 bool32 SetUpFieldMove_Fly(void)
 {
+    switch (gMapHeader.regionMapSectionId)
+    {
+    case MAPSEC_NAVEL_ROCK:
+    case MAPSEC_NAVEL_ROCK_FRLG:
+    case MAPSEC_FARAWAY_ISLAND:
+    case MAPSEC_BATTLE_FRONTIER:
+        return FALSE;
+    }
+
     if (!CheckFollowerNPCFlag(FOLLOWER_NPC_FLAG_CAN_LEAVE_ROUTE))
         return FALSE;
 

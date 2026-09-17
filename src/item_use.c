@@ -46,6 +46,7 @@
 #include "constants/event_objects.h"
 #include "constants/item_effects.h"
 #include "constants/items.h"
+#include "constants/region_map_sections.h"
 #include "constants/songs.h"
 #include "nuzlocke.h"
 
@@ -1740,6 +1741,18 @@ static void ItemUseOnFieldCB_TownMap(u8 taskId)
 
 void ItemUseOutOfBattle_TownMap(u8 taskId)
 {
+    // The special islands and Battle Frontier are intentionally isolated:
+    // neither the Town Map nor Fly may be used while the player is there.
+    switch (gMapHeader.regionMapSectionId)
+    {
+    case MAPSEC_NAVEL_ROCK:
+    case MAPSEC_NAVEL_ROCK_FRLG:
+    case MAPSEC_FARAWAY_ISLAND:
+    case MAPSEC_BATTLE_FRONTIER:
+        ItemUseOutOfBattle_CannotUse(taskId);
+        return;
+    }
+
     if (!gTasks[taskId].tUsingRegisteredKeyItem)
     {
         sItemUseOnFieldCB = ItemUseOnFieldCB_TownMap;
