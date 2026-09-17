@@ -11,6 +11,9 @@ env:
   GAME_LANGUAGE: ENGLISH
   COMPARE: 0
 
+permissions:
+  contents: write
+
 jobs:
   build-patch:
     runs-on: ubuntu-latest
@@ -60,9 +63,16 @@ jobs:
           open(sys.argv[2], "wb").write(patch)
           PY
 
-      - name: Upload patch
+      - name: Upload patch artifact
         uses: actions/upload-artifact@v4
         with:
           name: Fireleaf-Johto-preview
           path: Fireleaf-Johto-preview.bps
           if-no-files-found: error
+
+      - name: Publish direct BPS download
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view johto-preview >/dev/null 2>&1 || gh release create johto-preview --title "Fireleaf Johto Preview" --notes "Build di prova con accesso temporaneo a Johto dal Percorso 22." --prerelease
+          gh release upload johto-preview Fireleaf-Johto-preview.bps --clobber
