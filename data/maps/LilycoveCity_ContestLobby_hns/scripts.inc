@@ -1,6 +1,7 @@
 LilycoveCity_ContestLobby_hns_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, LilycoveCity_ContestLobby_OnTransition_hns
-	map_script MAP_SCRIPT_ON_FRAME_TABLE, LilycoveCity_ContestLobby_OnFrame_hns
+	@ Keep the imported contest hall stable when entered from Kanto.
+	@ Optional Emerald lobby cutscenes remain available to the receptionist
+	@ scripts, but are not evaluated automatically on map load.
 	.byte 0
 
 @ Some scripts for this room are split into data/scripts/contest_hall and data/scripts/berry_blender
