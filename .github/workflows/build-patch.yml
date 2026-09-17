@@ -27,12 +27,12 @@ jobs:
           sudo apt-get install -y --no-install-recommends binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi libpng-dev python3
 
       - name: Compile
-        run: make MAP_VERSION=firered -j$(nproc) -O all
+        run: make firered -j$(nproc) -O
 
       - name: Create BPS patch
         shell: bash
         run: |
-          ROM="pokeemerald.gba"
+          ROM="pokefirered.gba"
           test -f "$ROM"
           test "$(stat -c%s "$ROM")" -ge 16777216
           python3 - "$ROM" Fireleaf-Johto-preview.bps <<'PY'
