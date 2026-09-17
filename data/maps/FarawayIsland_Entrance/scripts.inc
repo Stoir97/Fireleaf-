@@ -29,7 +29,7 @@ FarawayIsland_Entrance_EventScript_Sailor::
 	hideobjectat LOCALID_FARAWAY_ISLAND_SAILOR, MAP_FARAWAY_ISLAND_ENTRANCE
 	setvar VAR_0x8004, LOCALID_FARAWAY_ISLAND_SS_TIDAL
 	call Common_EventScript_FerryDepartIsland
-	warp MAP_LILYCOVE_CITY_HARBOR, 8, 11
+	warp MAP_VERMILION_CITY, 14, 13
 	waitstate
 	release
 	end
@@ -42,4 +42,3 @@ FarawayIsland_Entrance_EventScript_AsYouLike::
 FarawayIsland_Entrance_EventScript_Sign::
 	msgbox FarawayIsland_Entrance_Text_Sign, MSGBOX_SIGN
 	end
-

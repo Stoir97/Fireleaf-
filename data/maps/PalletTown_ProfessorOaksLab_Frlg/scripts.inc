@@ -654,7 +654,9 @@ PalletTown_ProfessorOaksLab_EventScript_ReceiveDexScene::
 	waitfanfare
 	call EventScript_RestorePrevTextColor
 	setflag FLAG_SYS_POKEDEX_GET
+	setflag FLAG_SYS_POKENAV_GET
 	special SetUnlockedPokedexFlags
+	msgbox PalletTown_ProfessorOaksLab_Text_ReceivedPokeNavFromOak
 	setvar VAR_MAP_SCENE_POKEMON_CENTER_TEALA, 1
 	msgbox PalletTown_ProfessorOaksLab_Text_OakCatchMonsForDataTakeThese
 	giveitem_msg PalletTown_ProfessorOaksLab_Text_ReceivedFivePokeBalls, ITEM_POKE_BALL, 5
@@ -682,6 +684,9 @@ PalletTown_ProfessorOaksLab_EventScript_ReceiveDexScene::
 	setvar VAR_MAP_SCENE_ROUTE22, 1
 	release
 	end
+
+PalletTown_ProfessorOaksLab_Text_ReceivedPokeNavFromOak:
+	.string "OAK: Take this POKéNAV, too!$"
 
 PalletTown_ProfessorOaksLab_EventScript_OakBringDexesOverNorth::
 	applymovement LOCALID_OAKS_LAB_PROF_OAK, PalletTown_ProfessorOaksLab_Movement_OakBringDexesOver
@@ -1654,4 +1659,3 @@ PalletTown_ProfessorOaksLab_Text_RivalIllCompleteThePokedex::
 	.string "I think I'll try looking around\n"
 	.string "ONE ISLAND first…\p"
 	.string "Anyways, I'm outta here!$"
-

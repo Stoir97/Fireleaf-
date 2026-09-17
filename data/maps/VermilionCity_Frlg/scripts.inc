@@ -69,6 +69,54 @@ VermilionCity_EventScript_CheckHasAuroraTicket::
 	end
 
 VermilionCity_EventScript_CheckSeagallopPresent::
+	goto VermilionCity_EventScript_ChooseFireleafDestination
+
+VermilionCity_EventScript_ChooseFireleafDestination::
+	message VermilionCity_Text_BoardSeagallopFerry
+	waitmessage
+	setvar VAR_0x8004, 2
+	special ScriptMenu_CreateLilycoveSSTidalMultichoice
+	waitstate
+	special GetLilycoveSSTidalSelection
+	switch VAR_RESULT
+	case 1, VermilionCity_EventScript_SailToBattleFrontier
+	case 3, VermilionCity_EventScript_SailDirectToNavelRock
+	case 5, VermilionCity_EventScript_SailToFarawayIsland
+	case 6, EventScript_CancelSail
+	case MULTI_B_PRESSED, EventScript_CancelSail
+	end
+
+VermilionCity_EventScript_SailToBattleFrontier::
+	msgbox EventTicket_Text_SailHome, MSGBOX_DEFAULT
+	closemessage
+	fadescreen FADE_TO_BLACK
+	warp MAP_BATTLE_FRONTIER_OUTSIDE_WEST, 20, 67
+	waitstate
+	release
+	end
+
+VermilionCity_EventScript_SailDirectToNavelRock::
+	msgbox VermilionCity_Text_Seagallop10Departing, MSGBOX_DEFAULT
+	closemessage
+	fadescreen FADE_TO_BLACK
+	warp MAP_NAVEL_ROCK_HARBOR, 8, 4
+	waitstate
+	release
+	end
+
+VermilionCity_EventScript_SailToFarawayIsland::
+	msgbox EventTicket_Text_SailHome, MSGBOX_DEFAULT
+	closemessage
+	fadescreen FADE_TO_BLACK
+	warp MAP_FARAWAY_ISLAND_ENTRANCE, 13, 38
+	waitstate
+	release
+	end
+
+@ Legacy Sevii scripts are retained below as reusable map assets, but are no
+@ longer reachable from Vermilion's public ferry menu.
+
+VermilionCity_EventScript_CheckSeagallopPresentLegacy::
 	setvar VAR_0x8004, SEAGALLOP_VERMILION_CITY
 	goto_if_ge VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 5, VermilionCity_EventScript_ChooseSeagallopDestRainbowPass
 	goto_if_ge VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 1, VermilionCity_EventScript_ChooseSeagallopDestTriPass
@@ -393,4 +441,3 @@ VermilionCity_Text_Route2AideHasPackageForYou::
 	.string "ROUTE 2, {PLAYER}.\p"
 	.string "If you're in the ROUTE 2 area,\n"
 	.string "please look for him.$"
-

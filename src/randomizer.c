@@ -260,7 +260,7 @@ static void BuildGenScopeMask(void)
     for (i = 1; i < RANDOMIZER_SPECIES_COUNT; i++)
     {
         u32 natDexNum = gSpeciesInfo[i].natDexNum;
-        if (natDexNum != NATIONAL_DEX_NONE && natDexNum <= NATIONAL_DEX_DEOXYS)
+        if (natDexNum != NATIONAL_DEX_NONE && natDexNum <= NATIONAL_DEX_CELEBI)
         {
             MarkGenScopeFamily(i, 0);
         }
@@ -344,7 +344,9 @@ static bool32 IsSpeciesValidForRandomizer(u16 species)
 // randomizer can roll has to pass this, so the gen scope applies here.
 static bool32 IsSpeciesPermitted(u16 species)
 {
-    return IsSpeciesValidForRandomizer(species) && IsSpeciesInGenScope(species);
+    return IsSpeciesValidForRandomizer(species)
+        && IsSpeciesEnabled(species)
+        && IsSpeciesInGenScope(species);
 };
 
 u32 GenerateSeedForRandomizer(void)

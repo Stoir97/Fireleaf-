@@ -10,12 +10,13 @@ BattleFrontier_OutsideWest_OnTransition:
 BattleFrontier_OutsideWest_EventScript_FerryAttendant::
 	lock
 	faceplayer
-	msgbox BattleFrontier_OutsideWest_Text_MayISeeYourTicket, MSGBOX_DEFAULT
-	checkitem ITEM_SS_TICKET
-	goto_if_eq VAR_RESULT, FALSE, BattleFrontier_OutsideWest_EventScript_NoSSTicket
-	message BattleFrontier_OutsideWest_Text_WhereWouldYouLikeToGo
-	waitmessage
-	goto BattleFrontier_OutsideWest_EventScript_ChooseFerryDestination
+	msgbox BattleFrontier_OutsideWest_Text_PleaseBoardFerry, MSGBOX_DEFAULT
+	closemessage
+	fadescreen FADE_TO_BLACK
+	warp MAP_VERMILION_CITY, 14, 13
+	waitstate
+	release
+	end
 	end
 
 BattleFrontier_OutsideWest_EventScript_ChooseFerryDestination::
@@ -514,4 +515,3 @@ BattleFrontier_OutsideWest_Text_MonWithLongTailInFrontier:
 	.string "It must be adorable. I'm sure of it…\p"
 	.string "Oh, challenges can wait. I feel driven\n"
 	.string "to find the delightful creature!$"
-

@@ -867,6 +867,14 @@ static void CreateLilycoveSSTidalMultichoice(void)
         }
     }
 
+    // Fireleaf's Vermilion ferry only exposes unlocked special destinations.
+    // The Frontier Pass is a flag, while Navel Rock and Faraway Island retain
+    // their event-ticket checks.
+    if (gSpecialVar_0x8004 == 2 && FlagGet(FLAG_SYS_FRONTIER_PASS))
+    {
+        sLilycoveSSTidalSelections[selectionCount++] = SSTIDAL_SELECTION_BATTLE_FRONTIER;
+    }
+
     if (CheckBagHasItem(ITEM_EON_TICKET, 1) == TRUE && FlagGet(FLAG_ENABLE_SHIP_SOUTHERN_ISLAND) == TRUE)
     {
         if (gSpecialVar_0x8004 == 0)
