@@ -21,7 +21,7 @@ BattleFrontier_OutsideWest_EventScript_EventScript_Sailor_hns::
 	hideobjectat LOCALID_BATTLE_FRONTIER_SAILOR_HNS, MAP_BATTLE_FRONTIER_OUTSIDE_WEST_HNS
 	setvar VAR_0x8004, LOCALID_FARAWAY_BATTLE_FRONTIER_HNS_SS_TIDAL
 	call Common_EventScript_FerryDepartIsland
-	warpsilent MAP_OLIVINE_CITY_PORT_INSIDE_HNS, 8, 16
+	warpsilent MAP_VERMILION_CITY, 14, 13
 	waitstate
 	release
 	end
@@ -472,4 +472,3 @@ BattleFrontier_OutsideWest_Text_MonWithLongTailInFrontier_hns:
 	.string "It must be adorable. I'm sure of it…\p"
 	.string "Oh, challenges can wait. I feel driven\n"
 	.string "to find the delightful creature!$"
-

@@ -90,7 +90,7 @@ VermilionCity_EventScript_SailToBattleFrontier::
 	msgbox EventTicket_Text_SailHome, MSGBOX_DEFAULT
 	closemessage
 	fadescreen FADE_TO_BLACK
-	warp MAP_BATTLE_FRONTIER_OUTSIDE_WEST, 20, 67
+	warp MAP_BATTLE_FRONTIER_OUTSIDE_WEST_HNS, 20, 67
 	waitstate
 	release
 	end
