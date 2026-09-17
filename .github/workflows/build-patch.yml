@@ -32,8 +32,9 @@ jobs:
       - name: Create BPS patch
         shell: bash
         run: |
-          ROM="$(find . -maxdepth 2 -type f -name '*.gba' -print -quit)"
-          test -n "$ROM"
+          ROM="pokeemerald.gba"
+          test -f "$ROM"
+          test "$(stat -c%s "$ROM")" -ge 16777216
           python3 - "$ROM" Fireleaf-Johto-preview.bps <<'PY'
           import binascii, struct, sys
           source_size = 16 * 1024 * 1024
