@@ -1,23 +1,16 @@
 #!/usr/bin/env python3
-"""Convert the accidentally imported Emerald lab attributes to FRLG format."""
+"""Apply Fireleaf's reproducible map adjustments."""
 
 from pathlib import Path
 import struct
 
 
-path = Path("data/tilesets/secondary/lab_frlg/metatile_attributes.bin")
-raw = path.read_bytes()
-
-if len(raw) == 350:
-    emerald_attrs = struct.unpack(f"<{len(raw) // 2}H", raw)
-    frlg_attrs = []
-    for attr in emerald_attrs:
-        behavior = attr & 0x1FF
-        layer_type = (attr >> 12) & 0x3
-        frlg_attrs.append(behavior | (layer_type << 29))
-    path.write_bytes(struct.pack(f"<{len(frlg_attrs)}I", *frlg_attrs))
-elif len(raw) != 700:
-    raise SystemExit(f"Unexpected lab attribute size: {len(raw)}")
+# The lab uses the native FireRed u32 attribute table.  Do not attempt to
+# expand the old 350-byte file entry-by-entry: it was truncated/mispacked and
+# doing so changes tile ordering, hiding the starter balls and breaking doors.
+attribute_path = Path("data/tilesets/secondary/lab_frlg/metatile_attributes.bin")
+if attribute_path.stat().st_size != 700:
+    raise SystemExit("Oak's lab must use the complete 700-byte FireRed attribute table")
 
 # Replace Vermilion's construction lot with the existing four-by-four Gen III
 # shop facade. The facade's door (third tile of the bottom row) lines up with
