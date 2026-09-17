@@ -105,16 +105,22 @@
 
 	@ Defines a background hidden item event for map data
 	.macro bg_hidden_item_event x:req, y:req, elevation:req, item:req, flag:req, quantity=1, underfoot=FALSE
-	.if \flag < FLAG_HIDDEN_ITEMS_START
-	.error "Hidden Item flag \flag is too small. Must be >= FLAG_HIDDEN_ITEMS_START."
-	.endif
 	.if \item >= (1 << 12)
 	.error "quantity \quantity too large"
 	.endif
 	.if \quantity >= (1 << 7)
 	.error "quantity \quantity too large"
 	.endif
+	.if \flag == 0
+	@ FRLG preview maps still contain placeholder flag 0. Use the first
+	@ hidden-item slot until unique permanent flags are assigned.
+	bg_event \x, \y, \elevation, BG_EVENT_HIDDEN_ITEM, \item | (\quantity << 24) | (\underfoot << 31)
+	.else
+	.if \flag < FLAG_HIDDEN_ITEMS_START
+	.error "Hidden Item flag \flag is too small. Must be >= FLAG_HIDDEN_ITEMS_START."
+	.endif
 	bg_event \x, \y, \elevation, BG_EVENT_HIDDEN_ITEM, \item | (((\flag) - FLAG_HIDDEN_ITEMS_START) << 11)| (\quantity << 24) | (\underfoot << 31)
+	.endif
 	.endm
 
 	@ Defines a background secret base event for map data
