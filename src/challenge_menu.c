@@ -1264,9 +1264,10 @@ static const struct ChallengeMenuItem *GetCurrentTabItems(void)
 
 static u8 GetLockPolicy(u8 tab, u8 itemIndex)
 {
-    if (sIsInitialSetup)
-        return LOCK_FREE;
-    return sMidGameLockPolicy[tab * MAX_ITEMS_PER_TAB + itemIndex];
+    // Fireleaf deliberately lets the player reconfigure every challenge from
+    // the PC. Runtime systems read the saved settings directly, so imposing
+    // the original one-way/mid-game locks only made the visible options inert.
+    return LOCK_FREE;
 }
 
 static bool8 CheckConditions(u8 tab, u8 itemIndex)

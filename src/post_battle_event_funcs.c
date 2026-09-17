@@ -29,6 +29,11 @@ int GameClear(void)
     {
         gHasHallOfFameRecords = FALSE;
         FlagSet(FLAG_SYS_GAME_CLEAR);
+        // Temporary Fireleaf progression hook until Elm's Johto event is in
+        // place: completing the Kanto League makes the Frontier destination
+        // available from Vermilion without reviving any Sevii route.
+        if (IS_FRLG)
+            FlagSet(FLAG_SYS_FRONTIER_PASS);
     }
 
     if (GetGameStat(GAME_STAT_FIRST_HOF_PLAY_TIME) == 0)

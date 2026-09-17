@@ -7353,7 +7353,7 @@ u32 NationalToRegionalOrder(enum NationalDexOrder nationalNum)
     if (IS_HNS)
         return NationalToJohtoOrder(nationalNum);
     if (IS_FRLG)
-        return NationalToKantoOrder(nationalNum);
+        return NationalToObtainableOrder(nationalNum);
     return NationalToHoennOrder(nationalNum);
 }
 
@@ -7407,7 +7407,7 @@ u32 SpeciesToRegionalPokedexNum(u16 species)
     if (IS_HNS)
         return SpeciesToJohtoPokedexNum(species);
     if (IS_FRLG)
-        return SpeciesToKantoPokedexNum(species);
+        return SpeciesToObtainablePokedexNum(species);
     return SpeciesToHoennPokedexNum(species);
 }
 
@@ -7430,7 +7430,7 @@ enum NationalDexOrder RegionalToNationalOrder(u32 regionalNum)
     if (IS_HNS)
         return JohtoToNationalOrder(regionalNum);
     if (IS_FRLG)
-        return KantoToNationalOrder(regionalNum);
+        return ObtainableToNationalOrder(regionalNum);
     return HoennToNationalOrder(regionalNum);
 }
 

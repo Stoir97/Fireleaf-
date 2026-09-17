@@ -74,6 +74,8 @@ const u8 gText_ListByType[] = _("List by type.\nOwned POKéMON only.");
 const u8 gText_ExecuteSearchSwitch[] = _("Execute search/switch.");
 #if IS_HNS
 const u8 gText_DexHoennTitle[] = _("JOHTO DEX");
+#elif IS_FRLG
+const u8 gText_DexHoennTitle[] = _("REGIONAL DEX");
 #else
 const u8 gText_DexHoennTitle[] = _("HOENN DEX");
 #endif
@@ -105,6 +107,8 @@ const u8 gText_DexSearchColorWhite[] = _("WHITE");
 const u8 gText_DexSearchColorPink[] = _("PINK");
 #if IS_HNS
 const u8 gText_DexHoennDescription[] = _("JOHTO region's POKéDEX");
+#elif IS_FRLG
+const u8 gText_DexHoennDescription[] = _("KANTO and JOHTO POKéDEX");
 #else
 const u8 gText_DexHoennDescription[] = _("HOENN region's POKéDEX");
 #endif

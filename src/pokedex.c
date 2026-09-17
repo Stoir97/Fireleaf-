@@ -1397,7 +1397,9 @@ static const struct SearchOptionText sDexSearchTypeOptions[] =
     {},
 };
 
-static const u8 sPokedexModes[] = {DEX_MODE_HOENN, DEX_MODE_NATIONAL};
+// Fireleaf has one unified regional Pokédex. The National mode remains an
+// internal engine concept for other builds, but is never offered in FireRed.
+static const u8 sPokedexModes[] = {DEX_MODE_HOENN};
 static const u8 sOrderOptions[] =
 {
     ORDER_NUMERICAL,
@@ -4566,7 +4568,7 @@ u32 GetRegionalPokedexCount(u8 caseID)
     if (IS_HNS)
         return GetJohtoPokedexCount(caseID);
     if (IS_FRLG)
-        return GetKantoPokedexCount(caseID);
+        return GetNationalPokedexCount(caseID);
     return GetHoennPokedexCount(caseID);
 }
 

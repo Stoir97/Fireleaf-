@@ -686,10 +686,10 @@ static const struct MatchCallStructTrainer sNormanMatchCallHeader =
 static const struct MatchCallBirch sProfBirchMatchCallHeader =
 {
     .type = MC_TYPE_BIRCH,
-    .mapSec = 0,
+    .mapSec = MAPSEC_PALLET_TOWN,
     .flag = FLAG_ENABLE_PROF_BIRCH_MATCH_CALL,
     .desc = COMPOUND_STRING("{PKMN} PROF."),
-    .name = COMPOUND_STRING("PROF. BIRCH")
+    .name = COMPOUND_STRING("PROF. OAK")
 };
 
 static const match_call_text_data_t sMomTextScripts[] = {

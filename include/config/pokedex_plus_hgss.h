@@ -9,7 +9,7 @@
 #define HGSS_SORT_TMS_BY_NUM                FALSE // If TRUE, sorts the TMS in HGSS Dex by TM number, rather than alphabetically.
 #define HGSS_SHOW_EGG_MOVES_FOR_EVOS        FALSE // If TRUE, shows Egg Moves for evolved Pokémon too.
 
-#if IS_HNS
+#if IS_HNS || IS_FRLG
 #define SEPARATE_OBTAINABLE_DEX             TRUE
 #else
 #define SEPARATE_OBTAINABLE_DEX             FALSE
